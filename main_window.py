@@ -1,7 +1,6 @@
 import sys
+from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from ui_main_window import Ui_MainWindow
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -9,8 +8,7 @@ class MainWindow(QMainWindow):
         Initialize the main window and set up the UI.
         """
         super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        uic.loadUi("time_machine.ui", self)
 
         # --- initialise variables
 
@@ -21,13 +19,12 @@ class MainWindow(QMainWindow):
         """
         Connect UI signals to the corresponding slots.
         """
-        pass  # Add signal-slot connections here, e.g., button.clicked.connect(self.some_function)
+        pass  # Add signal-slot connections here
 
     # ---- SLOTS ---- #
     """
     functions that are called from the signals go below here
     """
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
