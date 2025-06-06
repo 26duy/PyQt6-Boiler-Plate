@@ -1,7 +1,6 @@
 import sys
 from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from PyQt6.QtCore import QTime,QTimer
  
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -9,34 +8,41 @@ class MainWindow(QMainWindow):
         Initialize the main window and set up the UI.
         """
         super().__init__()
-        uic.loadUi("time_machine.ui", self)
+        uic.loadUi("score_board.ui", self)
 
-        self.show_time()
+        #--- initialise variables
 
-        # --- initialise variables
-        self.clock_timer = QTimer()
-        self.clock_timer. start(1000)
-       
-
+        #--- connect signals and slots
         self.signals()
+    def connect_buttons(self):
+        # Team A score buttons
+        self.pushButton_team_a_plus1.clicked.connect(lambda: self.update_score(0, 1))
+        self.pushButton_team_a_plus2.clicked.connect(lambda: self.update_score(0, 2))
+        self.pushButton_team_a_plus3.clicked.connect(lambda: self.update_score(0, 3))
+
+        # Team B score buttons
+        self.pushButton_team_b_plus1.clicked.connect(lambda: self.update_score(1, 1))
+        self.pushButton_team_b_plus2.clicked.connect(lambda: self.update_score(1, 2))
+        self.pushButton_team_b_plus3.clicked.connect(lambda: self.update_score(1, 3))
+
+        # Timer control buttons
+        self.pushButton_pause.clicked.connect(self.pause_timer)
+        self.pushButton_continue.clicked.connect(self.resume_timer)
+        self.pushButton_reclock.clicked.connect(self.reset_timer)
+        self.pushButton_start.clicked.connect(self.start_timer)
 
     def signals(self):
         """
-        Connect UI signals to the corresponding slots.
+        Connect signals to the corresponding slots.
         """
-        self.clock_timer.timeout.connect(self.show_time)
-     
-    # ---- SLOTS ---- #
-    """
-    functions that are called from the signals go below here
-    """
-    # clock
-    def show_time(self):
+        pass #Add signal connections here
+    # --- slots ---#
         """
-        Update the clock display with the current time.
+        functions that are cslls from the signals go below here.
         """
-        current_time = QTime.currentTime()
-        formatted_time = current_time.toString("h:mm:ssa")
-        self.label_clock.setText(formatted_time)
-
-  
+        
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())

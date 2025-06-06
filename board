@@ -1,0 +1,161 @@
+import sys
+from PyQt6 import uic
+from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.QtCore import QTime, QTimer,QUr1  
+from PyQt6.QtMultimedia import QSoundEffect
+class MainWindow(QMainWindow):
+    def __init__(self):
+
+        
+
+
+
+
+        # --- Initialize variables
+       self.clock_timer = QTimer()
+       self.clock_timer.start(1000)  
+
+       self.sw_timer = QTimer()
+       self.sw_time = QTime(0, 0, 0, 0)
+       self.sw_running = False
+
+       self.tm_timer = QTimer()
+       self.tm_time = QTime(0, 0, 0)
+       self.tm_running = False
+       
+        # --- connect signals to slots
+       self.signals()
+
+        # --- initialise displays
+       self.show_time()
+       self.show_sw_time()
+
+    def signals(self):
+        """
+        Connect UI signals to the corresponding slots.
+        """
+
+
+
+
+    # stopwatch
+    self.pushButton_sw_start.clicked.connect(self.start_sw)
+    self.pushButton_sw_pause.clicked.connect(self.pause_sw)
+    self.pushButton_sw_stop.clicked.connect(self.stop_sw)
+    self.pushButton_sw_reset.clicked.connect(self.reset_sw)
+    self.sw_timer.timeout.connect(self.update_stopwatch)
+
+    # timer
+    self.pushButton_tm_start.clicked.connect(self.start_timer)
+    self.pushButton_tm_pause.clicked.connect(self.pause_timer)
+    self.pushButton_tm_stop.clicked.connect(self.stop_timer)
+    self.pushButton_tm_reset.clicked.connect(self.reset_timer)
+    self.tm_timer.timeout.connect(self.update_timer)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def update_stopwatch(self):
+        """
+        Update the stopwatch time if it is running.
+        """
+        if self.sw_running:
+            self.sw_time = self.sw_time.addMSecs(100)
+            self.show_sw_time()
+
+    # timer
+    def show_tm_time(self):
+        """
+        Update the timer display with the current timer time.
+        """
+        formatted_time = self.tm_time.toString("h:mm:ss")
+        self.label_tm_time.setText(formatted_time)
+        def start_timer(self):
+  # ------ UTILITIES ------ #
+def spinbox_to_time(self):
+    """
+    Convert the values from the spinboxes to a QTime object.
+    """
+    hours = self.spinBox_hours.value()
+    minutes = self.spinBox_minutes.value()
+    seconds = self.spinBox_seconds.value()
+    return QTime(hours, minutes, seconds)
+def pause_timer(self):
+    """
+    Pause the timer.
+    """
+    self.tm_running = not self.tm_running
+
+def stop_timer(self):
+    """
+    Stop the timer and reset the time.
+    """
+    self.tm_running = False
+    self.tm_time = QTime(0, 0, 0)
+    self.show_tm_time()
+
+def reset_timer(self):
+    """
+    Reset the timer to the time set in the spinboxes.
+    """
+    self.tm_time = self.spinbox_to_time()
+    self.show_tm_time()
+
+    def update_timer(self):
+    """
+    Update the timer time if it is running.
+    """
+    if self.tm_running:
+        self.tm_time = self.tm_time.addSecs(-1)
+        self.show_tm_time()
+        if self.tm_time == QTime(0, 0, 0):
+            self.tm_running = False
+
+
+        self.show_tm_timer()
+    def update_timer(self):
+        """
+        Update the timer time if it is running.
+        """
+        if self.tm_running:
+            self.tm_time = self.tm_time.addSecs(-1)
+            self.show_tm_time()
+            if self.tm_time == QTime(0, 0, 0):
+                self.tm_running = False
+                self.tm_alarm.play()
